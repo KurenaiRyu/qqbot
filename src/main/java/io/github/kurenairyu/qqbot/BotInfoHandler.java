@@ -6,7 +6,7 @@ import io.netty.handler.codec.http.FullHttpRequest;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author liufuhong
+ * @author Kurenai
  * @since 2021-04-02 15:59
  */
 
@@ -24,7 +24,7 @@ public class BotInfoHandler extends SimpleChannelInboundHandler<FullHttpRequest>
     public void channelRead0(ChannelHandlerContext ctx, FullHttpRequest request) throws Exception {
         if (request.uri().equals(path)) {
             BotInfo info = BotInfo.builder().xClientRole(request.headers()
-                    .get(BotConstant.X_CLIENT_ROLE))
+                                                             .get(BotConstant.X_CLIENT_ROLE))
                     .xSelfId(request.headers().get(BotConstant.X_SELF_ID))
                     .build();
             BotInfoHolder.put(ctx, info);

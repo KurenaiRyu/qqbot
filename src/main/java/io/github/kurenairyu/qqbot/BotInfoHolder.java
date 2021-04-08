@@ -3,16 +3,17 @@ package io.github.kurenairyu.qqbot;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelId;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 /**
- * @author liufuhong
+ * @author Kurenai
  * @since 2021-04-02 14:21
  */
 
@@ -21,8 +22,8 @@ import org.apache.commons.lang3.StringUtils;
 @Slf4j
 public class BotInfoHolder {
 
-    private static final Map<String, BotInfo> POOL = new HashMap<>();
-    private static final BotInfo EMPTY_BOT_INFO = new BotInfo();
+    private static final Map<String, BotInfo> POOL           = new HashMap<>();
+    private static final BotInfo              EMPTY_BOT_INFO = new BotInfo();
 
     private BotInfoHolder() {
 

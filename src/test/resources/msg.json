@@ -1,25 +1,51 @@
 {
-  "interval": 5000,
-  "meta_event_type": "heartbeat",
-  "post_type": "meta_event",
-  "self_id": 929956850,
-  "status": {
-    "app_enabled": true,
-    "app_good": true,
-    "app_initialized": true,
-    "good": true,
-    "online": true,
-    "plugins_good": null,
-    "stat": {
-      "packet_received": 192,
-      "packet_sent": 90,
-      "packet_lost": 0,
-      "message_received": 63,
-      "message_sent": 0,
-      "disconnect_times": 0,
-      "lost_times": 0,
-      "last_message_time": 1617789536
+  "time"        : 1617873559,
+  "self_id"     : 929956850,
+  "post_type"   : "message",
+  "message_type": "group",
+  "sub_type"    : "normal",
+  "message_id"  : -6332562,
+  "user_id"     : 36889693,
+  "group_id"    : 859882209,
+  "message"     : [
+    {
+      "type": "reply",
+      "data": {
+        "id": 1255577870
+      }
+    },
+    null,
+    {
+      "type": "at",
+      "data": {
+        "qq": "83336408"
+      }
+    },
+    {
+      "type": "text",
+      "data": {
+        "text": " "
+      }
+    },
+    {
+      "type": "at",
+      "data": {
+        "qq": "83336408"
+      }
+    },
+    {
+      "type": "text",
+      "data": {
+        "text": " 大佬用盒子？"
+      }
     }
-  },
-  "time": 1617789592
+  ],
+  "raw_message" : "[CQ:reply,id=1255577870][CQ:at,qq=83336408] [CQ:at,qq=83336408] 大佬用盒子？",
+  "font"        : 0,
+  "sender"      : {
+    "user_id" : 36889693,
+    "nickname": "零雨其濛",
+    "sex"     : "unknown",
+    "age"     : 0
+  }
 }
