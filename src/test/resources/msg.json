@@ -1,51 +1,8 @@
 {
-  "time"        : 1617873559,
-  "self_id"     : 929956850,
-  "post_type"   : "message",
-  "message_type": "group",
-  "sub_type"    : "normal",
-  "message_id"  : -6332562,
-  "user_id"     : 36889693,
-  "group_id"    : 859882209,
-  "message"     : [
-    {
-      "type": "reply",
-      "data": {
-        "id": 1255577870
-      }
-    },
-    null,
-    {
-      "type": "at",
-      "data": {
-        "qq": "83336408"
-      }
-    },
-    {
-      "type": "text",
-      "data": {
-        "text": " "
-      }
-    },
-    {
-      "type": "at",
-      "data": {
-        "qq": "83336408"
-      }
-    },
-    {
-      "type": "text",
-      "data": {
-        "text": " 大佬用盒子？"
-      }
-    }
-  ],
-  "raw_message" : "[CQ:reply,id=1255577870][CQ:at,qq=83336408] [CQ:at,qq=83336408] 大佬用盒子？",
-  "font"        : 0,
-  "sender"      : {
-    "user_id" : 36889693,
-    "nickname": "零雨其濛",
-    "sex"     : "unknown",
-    "age"     : 0
-  }
+  "data"   : {
+    "message_id": -64697922
+  },
+  "echo"   : "0",
+  "retcode": 0,
+  "status" : "ok"
 }

@@ -4,7 +4,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>io.github.kurenairyu</groupId>
+  <groupId>org.kurenai</groupId>
   <artifactId>qqbot</artifactId>
   <version>1.0-SNAPSHOT</version>
 
@@ -98,7 +98,7 @@
               <addClasspath>true</addClasspath>
               <classpathPrefix>libs/</classpathPrefix>
               <mainClass>
-                io.github.kurenairyu.qqbot.NettyWebSocketBootstrap
+                org.kurenai.qqbot.NettyWebSocketBootstrap
               </mainClass>
             </manifest>
           </archive>
