@@ -26,5 +26,5 @@ public enum EventNoticeType {
     @JsonProperty("friend_recall")
     FRIEND_RECALL,
     @JsonProperty("notify")
-    NOTIFY,
+    NOTIFY, NONE,
 }

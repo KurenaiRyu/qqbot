@@ -4,6 +4,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpRequest;
 import lombok.extern.slf4j.Slf4j;
+import org.kurenai.qqbot.domain.Bot;
 
 /**
  * @author Kurenai
@@ -11,11 +12,12 @@ import lombok.extern.slf4j.Slf4j;
  */
 
 @Slf4j
-public class BotInfoHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
+@Deprecated
+public class InitBotInfoHandler extends SimpleChannelInboundHandler<FullHttpRequest> {
 
     private final String path;
 
-    public BotInfoHandler(String path) {
+    public InitBotInfoHandler(String path) {
         this.path = path;
     }
 
@@ -27,7 +29,7 @@ public class BotInfoHandler extends SimpleChannelInboundHandler<FullHttpRequest>
                                                          .get(BotConstant.X_CLIENT_ROLE))
                     .xSelfId(request.headers().get(BotConstant.X_SELF_ID))
                     .build();
-            GlobalHolder.putBot(ctx, info);
+            Global.putBot(ctx, info);
             ctx.fireChannelRead(request.retain());
         }
         log.info(ctx.channel().id().asLongText());

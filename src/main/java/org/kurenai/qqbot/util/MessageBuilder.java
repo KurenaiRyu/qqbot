@@ -104,6 +104,16 @@ public class MessageBuilder {
         return this;
     }
 
+    public MessageBuilder location(float lat, float lon) {
+        messages.add(
+                Message.builder()
+                        .type(MessageType.LOCATION)
+                        .data(Message.Data.builder().lat(lat).lon(lon).build())
+                        .build()
+        );
+        return this;
+    }
+
     public List<Message> build() {
         return messages;
     }

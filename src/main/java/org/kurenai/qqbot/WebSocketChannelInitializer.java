@@ -25,11 +25,11 @@ public class WebSocketChannelInitializer extends ChannelInitializer<SocketChanne
         //ws://server:port/context_path
         //ws://localhost:9999/ws
         //参数指的是context_path
-        pipeline.addLast(new BotInfoHandler(path));
+//        pipeline.addLast(new InitBotInfoHandler(path));
         pipeline.addLast(new WebSocketServerProtocolHandler(path));
         //websocket定义了传递数据的6中frame类型
         pipeline.addLast("responseHandler", new ResponseHandler());
-        pipeline.addLast("eventHandler", new EventHandler());
+        pipeline.addLast("eventHandler", new TextWebSocketFrameHandle());
 
     }
 }

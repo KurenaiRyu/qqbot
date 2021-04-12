@@ -13,6 +13,6 @@ public enum EventMessageType {
     PRIVATE,
     @JsonProperty("group")
     GROUP,
-    @JsonProperty("meta_event")
+    NONE, @JsonProperty("meta_event")
     META_EVENT
 }

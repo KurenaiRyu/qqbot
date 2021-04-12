@@ -7,9 +7,12 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.kurenai.qqbot.domain.Bot;
+import org.kurenai.qqbot.domain.GroupInfo;
 import org.kurenai.qqbot.handle.BotEventHandler;
-import org.kurenai.qqbot.handle.ClanBattleHandler;
 import org.kurenai.qqbot.handle.PingHandler;
+import org.kurenai.qqbot.handle.TestHandler;
+import org.kurenai.qqbot.handle.clanbattle.ClanBattleHandler;
 
 import java.util.*;
 
@@ -21,29 +24,32 @@ import java.util.*;
 @Getter
 @Setter
 @Slf4j
-public class GlobalHolder {
+public class Global {
 
-    public static final List<BotEventHandler>       HANDLERS            = new ArrayList<>();
-    public static final Map<String, HandlerContext> HANDLER_CONTEXT_MAP = new HashMap<>();
+    public static final List<BotEventHandler>   HANDLERS           = new ArrayList<>();
+    public static final Map<String, BotContext> BOT_CONTEXT_MAP    = new HashMap<>();
+    public static final Map<Long, GroupInfo>    GROUP_INFO_MAP     = new HashMap<>();
+    public static final HashMap<String, Object> CLASS_INSTANCE_MAP = new HashMap<>();
 
     static {
         HANDLERS.add(new PingHandler());
         HANDLERS.add(new ClanBattleHandler());
+        HANDLERS.add(new TestHandler());
     }
 
-    private static final Map<String, Bot> BOT            = new HashMap<>();
-    private static final Bot              EMPTY_BOT_INFO = new Bot();
+    private static final Map<String, Bot> BOT       = new HashMap<>();
+    private static final Bot              EMPTY_BOT = new Bot();
 
     public static long id = 0;
 
-    private GlobalHolder() {
+    private Global() {
 
     }
 
     public static Bot getBot(ChannelHandlerContext ctx) {
         return getContextId(ctx)
                 .map(BOT::get)
-                .orElse(EMPTY_BOT_INFO);
+                .orElse(EMPTY_BOT);
     }
 
     public static void putBot(ChannelHandlerContext ctx, Bot bot) {
@@ -58,7 +64,7 @@ public class GlobalHolder {
     }
 
     public static void removeBot(ChannelHandlerContext ctx) {
-        getContextId(ctx).ifPresent(GlobalHolder::removeBot);
+        getContextId(ctx).ifPresent(Global::removeBot);
     }
 
     public static void removeBot(String idText) {

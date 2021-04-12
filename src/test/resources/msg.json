@@ -1,8 +1,33 @@
 {
-  "data"   : {
-    "message_id": -64697922
+  "anonymous"   : null,
+  "font"        : 0,
+  "group_id"    : 879793109,
+  "message"     : [
+    {
+      "data": {
+        "text": "笑死。"
+      },
+      "type": "text"
+    }
+  ],
+  "message_id"  : 2146298132,
+  "message_seq" : 109827,
+  "message_type": "group",
+  "post_type"   : "message",
+  "raw_message" : "笑死。",
+  "self_id"     : 929956850,
+  "sender"      : {
+    "age"     : 0,
+    "area"    : "",
+    "card"    : "",
+    "level"   : "",
+    "nickname": "青年",
+    "role"    : "member",
+    "sex"     : "unknown",
+    "title"   : "",
+    "user_id" : 448671587
   },
-  "echo"   : "0",
-  "retcode": 0,
-  "status" : "ok"
+  "sub_type"    : "normal",
+  "time"        : 1618198558,
+  "user_id"     : 448671587
 }

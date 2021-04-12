@@ -1,7 +1,6 @@
 package org.kurenai.qqbot.handle;
 
 import org.kurenai.qqbot.BotContext;
-import org.kurenai.qqbot.HandlerContext;
 
 /**
  * @author Kurenai
@@ -11,5 +10,9 @@ public interface BotEventHandler {
 
     String handle(BotContext ctx);
 
-    void handleResponse(HandlerContext ctx);
+    void onResponse(BotContext ctx);
+
+    default boolean isContinue() {
+        return true;
+    }
 }

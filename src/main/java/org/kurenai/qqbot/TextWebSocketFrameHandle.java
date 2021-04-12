@@ -1,11 +1,17 @@
 package org.kurenai.qqbot;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.handler.codec.http.HttpHeaders;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
 import lombok.extern.slf4j.Slf4j;
+import org.kurenai.qqbot.constant.Api;
+import org.kurenai.qqbot.domain.Action;
+import org.kurenai.qqbot.domain.Bot;
 import org.kurenai.qqbot.domain.Event;
 import org.kurenai.qqbot.handle.BotEventHandler;
 import org.kurenai.qqbot.util.JacksonFactory;
@@ -16,7 +22,7 @@ import java.util.concurrent.Executors;
 
 //处理文本协议数据，处理TextWebSocketFrame类型的数据，websocket专门处理文本的frame就是TextWebSocketFrame
 @Slf4j
-public class EventHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
+public class TextWebSocketFrameHandle extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
     private final ObjectMapper mapper = JacksonFactory.getInstance();
 
@@ -36,11 +42,12 @@ public class EventHandler extends SimpleChannelInboundHandler<TextWebSocketFrame
         ExecutorService pool = Executors.newFixedThreadPool(1);
         BotContext botContext = new BotContext(ctx, event);
         pool.execute(() -> {
-            for (BotEventHandler handler : GlobalHolder.HANDLERS) {
+            for (BotEventHandler handler : Global.HANDLERS) {
                 //TODO: break
                 Optional.ofNullable(handler.handle(botContext))
                         .map(TextWebSocketFrame::new)
                         .ifPresent(ctx::writeAndFlush);
+                if (!handler.isContinue()) break;
             }
         });
 
@@ -56,8 +63,13 @@ public class EventHandler extends SimpleChannelInboundHandler<TextWebSocketFrame
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         if (evt instanceof WebSocketServerProtocolHandler.HandshakeComplete) {
             WebSocketServerProtocolHandler.HandshakeComplete handshakeComplete = (WebSocketServerProtocolHandler.HandshakeComplete) evt;
-            log.info("New Client joined: {}|{}|{}", handshakeComplete.requestHeaders(), handshakeComplete.requestUri(), handshakeComplete.selectedSubprotocol());
-            ctx.pipeline().remove(BotInfoHandler.class);
+            HttpHeaders headers = handshakeComplete.requestHeaders();
+            log.info("New Client joined: {}|{}|{}", headers, handshakeComplete.requestUri(), handshakeComplete.selectedSubprotocol());
+
+            initInfo(ctx, headers);
+
+
+//            ctx.pipeline().remove(InitBotInfoHandler.class);
         }
         super.userEventTriggered(ctx, evt);
     }
@@ -66,12 +78,13 @@ public class EventHandler extends SimpleChannelInboundHandler<TextWebSocketFrame
     @Override
     public void handlerAdded(ChannelHandlerContext ctx) throws Exception {
         //打印出channel唯一值，asLongText方法是channel的id的全名
+
         log.info("handlerAdded：" + ctx.channel().id().asLongText());
     }
 
     @Override
     public void handlerRemoved(ChannelHandlerContext ctx) throws Exception {
-        GlobalHolder.removeBot(ctx);
+        Global.removeBot(ctx);
         log.info("handlerRemoved：" + ctx.channel().id().asLongText());
     }
 
@@ -79,5 +92,23 @@ public class EventHandler extends SimpleChannelInboundHandler<TextWebSocketFrame
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         log.error(cause.getMessage(), cause);
 //        ctx.close();
+    }
+
+    private void initInfo(ChannelHandlerContext ctx, HttpHeaders headers) {
+        //Bot info
+        Bot info = Bot.builder().xClientRole(headers.get(BotConstant.X_CLIENT_ROLE))
+                .xSelfId(headers.get(BotConstant.X_SELF_ID))
+                .build();
+        Global.putBot(ctx, info);
+
+        Action action = Action.builder().action(Api.GET_GROUP_LIST.getUrl()).build();
+
+        //Group info
+        try {
+            ChannelFuture future = ctx.writeAndFlush(new TextWebSocketFrame(mapper.writeValueAsString(action)));
+            future.addListener(f -> ctx.pipeline().addBefore("eventHandler", "groupInfoHandler", new GroupInfoHandler()));
+        } catch (JsonProcessingException exception) {
+            log.error("发送获取群组信息请求失败", exception);
+        }
     }
 }

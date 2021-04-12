@@ -1,4 +1,4 @@
-package org.kurenai.qqbot;
+package org.kurenai.qqbot.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

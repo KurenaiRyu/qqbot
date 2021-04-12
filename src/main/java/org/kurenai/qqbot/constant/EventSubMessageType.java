@@ -22,6 +22,7 @@ public enum EventSubMessageType {
     @JsonProperty("anonymous")
     ANONYMOUS,
     @JsonProperty("connect")
-    CONNECT
+    CONNECT,
+    NONE,
 
 }

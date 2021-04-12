@@ -15,5 +15,6 @@ public enum EventType {
     @JsonProperty("request")
     REQUEST,
     @JsonProperty("meta_event")
-    META_EVENT
+    META_EVENT,
+    NONE
 }

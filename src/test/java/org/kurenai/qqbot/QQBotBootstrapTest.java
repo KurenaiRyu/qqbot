@@ -10,10 +10,19 @@ import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
+import org.kurenai.qqbot.annotation.GroupEvent;
 import org.kurenai.qqbot.domain.Event;
+import org.reflections.Reflections;
+import org.reflections.scanners.MethodAnnotationsScanner;
+import org.reflections.scanners.SubTypesScanner;
+import org.reflections.scanners.TypeAnnotationsScanner;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.HashMap;
 
 @Slf4j
-class NettyWebSocketBootstrapTest {
+class QQBotBootstrapTest {
 
     @Test
     void logTest() {
@@ -36,5 +45,30 @@ class NettyWebSocketBootstrapTest {
         Event event = mapper.readValue(msg, Event.class);
         System.out.println(event.getLocalDateTime());
         System.out.println(mapper.writeValueAsString(event));
+    }
+
+    @Test
+    void testAnno() {
+        HashMap<String, Object> map = new HashMap<>();
+
+        Reflections reflections = new Reflections("org.kurenai.qqbot",
+                                                  new MethodAnnotationsScanner(),
+                                                  new TypeAnnotationsScanner(),
+                                                  new SubTypesScanner());
+
+        for (Method method : reflections.getMethodsAnnotatedWith(GroupEvent.class)) {
+            System.out.println(method.getName());
+            String clazzName = method.getDeclaringClass().getName();
+            Object instance = map.get(clazzName);
+            try {
+                if (instance == null) {
+                    instance = method.getDeclaringClass().getConstructor().newInstance();
+                    map.put(clazzName, instance);
+                }
+                method.invoke(instance, new BotContext(), new Event());
+            } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | InstantiationException e) {
+                log.error("调用方法失败", e);
+            }
+        }
     }
 }

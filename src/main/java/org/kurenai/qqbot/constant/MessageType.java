@@ -47,6 +47,6 @@ public enum MessageType {
     @JsonProperty("xml")
     XML,
     @JsonProperty("json")
-    JSON,
+    JSON, NONE,
 
 }

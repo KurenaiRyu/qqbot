@@ -17,10 +17,12 @@ public class ResponseHandler extends SimpleChannelInboundHandler<TextWebSocketFr
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, TextWebSocketFrame msg) throws Exception {
-        if (GlobalHolder.HANDLER_CONTEXT_MAP.size() > 0) {
+        if (Global.BOT_CONTEXT_MAP.size() > 0) {
             ActionResponse res = mapper.readValue(msg.text(), ActionResponse.class);
-            HandlerContext handlerContext = GlobalHolder.HANDLER_CONTEXT_MAP.get(res.getEcho());
-            handlerContext.getEventHandler().handleResponse(handlerContext);
+            BotContext botContext = Global.BOT_CONTEXT_MAP.get(res.getEcho());
+            botContext.getEventHandler().onResponse(botContext);
+        } else {
+            ctx.fireChannelRead(msg.retain());
         }
     }
 }

@@ -20,8 +20,7 @@ public class PingHandler extends AbstractBotEventHandler {
     }
 
     @Override
-    public Action doHandle(BotContext ctx) {
-        Event event = ctx.getEvent();
+    public Action doHandle(BotContext ctx, Event event) {
         return Action.builder()
                 .action(Action.SEND_MSG)
                 .params(Action.Param.builder()

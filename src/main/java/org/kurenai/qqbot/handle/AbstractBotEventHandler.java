@@ -4,9 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.kurenai.qqbot.BotContext;
-import org.kurenai.qqbot.GlobalHolder;
-import org.kurenai.qqbot.HandlerContext;
+import org.kurenai.qqbot.Global;
 import org.kurenai.qqbot.domain.Action;
+import org.kurenai.qqbot.domain.Event;
 import org.kurenai.qqbot.util.JacksonFactory;
 
 /**
@@ -25,9 +25,13 @@ public abstract class AbstractBotEventHandler implements BotEventHandler {
         try {
             if (match(ctx)) {
                 log.debug("Match {}", this.getClass().getSimpleName());
-                Action action = doHandle(ctx);
+                Action action = doHandle(ctx, ctx.getEvent());
                 if (action != null) {
-                    action.setEcho(GlobalHolder.id++ + "");
+                    ctx.setEventHandler(this);
+
+                    String id = String.valueOf(Global.id++);
+                    action.setEcho(id);
+                    Global.BOT_CONTEXT_MAP.put(id, ctx);
                     String json = mapper.writeValueAsString(action);
                     log.debug("Response {}", json);
                     return json;
@@ -46,9 +50,10 @@ public abstract class AbstractBotEventHandler implements BotEventHandler {
         return null;
     }
 
-    public abstract Action doHandle(BotContext ctx);
+    public abstract Action doHandle(BotContext ctx, Event event) throws Exception;
 
     @Override
-    public void handleResponse(HandlerContext ctx) {
+    public void onResponse(BotContext ctx) {
+        log.debug("onResponse: {}", ctx.getResponse());
     }
 }
