@@ -60,6 +60,7 @@ public class Action implements Serializable {
         private Long          groupId;
         private List<Message> message;
         private Boolean       autoEscape;
+        private Boolean       noCache;
 
         private List<Message> reply;
         private Boolean       atSender;

@@ -101,7 +101,7 @@ public class TextWebSocketFrameHandle extends SimpleChannelInboundHandler<TextWe
                 .build();
         Global.putBot(ctx, info);
 
-        Action action = Action.builder().action(Api.GET_GROUP_LIST.getUrl()).build();
+        Action action = Action.builder().action(Api.GET_GROUP_LIST.getUrl()).params(Action.Param.builder().build()).echo("group").build().async();
 
         //Group info
         try {

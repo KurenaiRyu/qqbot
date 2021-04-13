@@ -35,8 +35,12 @@ public class QQBotBootstrap {
         start(port);
     }
 
+    public static void start(int port) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
+        start(port, deduceMainApplicationClass().getPackageName());
+    }
+
     public static void start(int port, @NonNull String... scanPackages) throws InvocationTargetException, NoSuchMethodException, InstantiationException, IllegalAccessException {
-        scanPackages(scanPackages);
+        scanAndInitHandler(scanPackages);
         NioEventLoopGroup bossGroup = new NioEventLoopGroup();
         NioEventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
@@ -58,7 +62,7 @@ public class QQBotBootstrap {
         }
     }
 
-    private static void scanPackages(String[] scanPackages) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
+    private static void scanAndInitHandler(String... scanPackages) throws NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         SubTypesScanner subTypesScanner = new SubTypesScanner();
         TypeAnnotationsScanner typeAnnotationsScanner = new TypeAnnotationsScanner();
         MethodAnnotationsScanner methodAnnotationsScanner = new MethodAnnotationsScanner();
@@ -66,6 +70,7 @@ public class QQBotBootstrap {
             Reflections reflections = new Reflections(scanPackage, subTypesScanner, typeAnnotationsScanner, methodAnnotationsScanner);
             Set<Method> methods = reflections.getMethodsAnnotatedWith(GroupEvent.class);
             for (Method method : methods) {
+                @SuppressWarnings("ReflectionForUnavailableAnnotation")
                 GroupEvent groupEvent = method.getAnnotation(GroupEvent.class);
                 String clazzName = method.getDeclaringClass().getName();
                 Object instance = Global.CLASS_INSTANCE_MAP.get(clazzName);
@@ -92,5 +97,22 @@ public class QQBotBootstrap {
                 Global.HANDLERS.add(handler);
             }
         }
+    }
+
+    /**
+     * 获取程序入口类
+     */
+    private static Class<?> deduceMainApplicationClass() {
+        try {
+            StackTraceElement[] stackTrace = new RuntimeException().getStackTrace();
+            for (StackTraceElement stackTraceElement : stackTrace) {
+                if ("main".equals(stackTraceElement.getMethodName())) {
+                    return Class.forName(stackTraceElement.getClassName());
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            // Swallow and continue
+        }
+        return null;
     }
 }

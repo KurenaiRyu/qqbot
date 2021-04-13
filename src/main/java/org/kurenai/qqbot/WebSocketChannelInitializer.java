@@ -19,7 +19,7 @@ public class WebSocketChannelInitializer extends ChannelInitializer<SocketChanne
         //以块的方式来写的处理器
         pipeline.addLast(new ChunkedWriteHandler());
         //netty是基于分段请求的，HttpObjectAggregator的作用是将请求分段再聚合,参数是聚合字节的最大长度
-        pipeline.addLast(new HttpObjectAggregator(8192));
+        pipeline.addLast(new HttpObjectAggregator(1024 * 1024 * 10));
 
         String path = "/ws";
         //ws://server:port/context_path

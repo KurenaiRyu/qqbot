@@ -1,6 +1,9 @@
 package org.kurenai.qqbot.domain;
 
 import lombok.Data;
+import org.kurenai.qqbot.constant.ResponseStatus;
+
+import java.util.List;
 
 /**
  * @author Kurenai
@@ -8,8 +11,18 @@ import lombok.Data;
  */
 @Data
 public class GroupInfo {
-    private long   groupId;
-    private String groupName;
-    private int    memberCount;
-    private int    maxMemberCount;
+
+    private List<Data>     data;
+    private String         echo;
+    private int            retcode;
+    private ResponseStatus status;
+
+    @lombok.Data
+    public static class Data {
+        private long   groupId;
+        private String groupName;
+        private int    memberCount;
+        private int    maxMemberCount;
+        private String echo;
+    }
 }
