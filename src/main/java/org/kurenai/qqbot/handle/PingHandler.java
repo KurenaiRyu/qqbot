@@ -1,9 +1,9 @@
 package org.kurenai.qqbot.handle;
 
 import lombok.extern.slf4j.Slf4j;
-import org.kurenai.qqbot.BotContext;
-import org.kurenai.qqbot.domain.Action;
-import org.kurenai.qqbot.domain.Event;
+import org.kurenai.qqbot.core.BotContext;
+import org.kurenai.qqbot.pojo.Action;
+import org.kurenai.qqbot.pojo.Event;
 import org.kurenai.qqbot.util.MessageBuilder;
 
 /**
@@ -12,7 +12,7 @@ import org.kurenai.qqbot.util.MessageBuilder;
  */
 
 @Slf4j
-public class PingHandler extends AbstractBotEventHandler {
+public class PingHandler extends AbstractEventHandler {
 
     @Override
     public boolean match(BotContext ctx) {

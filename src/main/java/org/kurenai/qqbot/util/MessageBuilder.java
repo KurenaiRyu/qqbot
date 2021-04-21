@@ -2,7 +2,7 @@ package org.kurenai.qqbot.util;
 
 import lombok.NoArgsConstructor;
 import org.kurenai.qqbot.constant.MessageType;
-import org.kurenai.qqbot.domain.Message;
+import org.kurenai.qqbot.pojo.Message;
 
 import java.util.ArrayList;
 import java.util.List;

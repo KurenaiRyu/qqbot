@@ -1,4 +1,4 @@
-package org.kurenai.qqbot;
+package org.kurenai.qqbot.core;
 
 import io.netty.channel.ChannelHandlerContext;
 import lombok.AllArgsConstructor;
@@ -6,11 +6,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.kurenai.qqbot.constant.Api;
 import org.kurenai.qqbot.constant.EventMessageType;
-import org.kurenai.qqbot.domain.Action;
-import org.kurenai.qqbot.domain.ActionResponse;
-import org.kurenai.qqbot.domain.Bot;
-import org.kurenai.qqbot.domain.Event;
-import org.kurenai.qqbot.handle.BotEventHandler;
+import org.kurenai.qqbot.pojo.Action;
+import org.kurenai.qqbot.pojo.result.ActionResult;
+import org.kurenai.qqbot.pojo.Bot;
+import org.kurenai.qqbot.pojo.Event;
+import org.kurenai.qqbot.handle.EventHandler;
 import org.kurenai.qqbot.util.MessageBuilder;
 
 import java.util.HashMap;
@@ -30,8 +30,8 @@ public class BotContext {
     private Bot                   bot;
     private Event                 event;
     private ChannelHandlerContext channelHandlerContext;
-    private BotEventHandler       eventHandler;
-    private ActionResponse        response;
+    private EventHandler eventHandler;
+    private ActionResult response;
 
     public BotContext(ChannelHandlerContext ctx, Event event) {
         this.channelHandlerContext = ctx;

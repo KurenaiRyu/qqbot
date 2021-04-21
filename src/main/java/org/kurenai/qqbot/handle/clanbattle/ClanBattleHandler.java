@@ -1,17 +1,22 @@
 package org.kurenai.qqbot.handle.clanbattle;
 
-import org.kurenai.qqbot.BotContext;
+import lombok.extern.slf4j.Slf4j;
+import org.kurenai.qqbot.annotation.GroupEvent;
+import org.kurenai.qqbot.core.BotContext;
 import org.kurenai.qqbot.constant.EventMessageType;
-import org.kurenai.qqbot.domain.Action;
-import org.kurenai.qqbot.domain.Event;
-import org.kurenai.qqbot.handle.AbstractBotEventHandler;
+import org.kurenai.qqbot.core.Global;
+import org.kurenai.qqbot.pojo.Action;
+import org.kurenai.qqbot.pojo.Event;
+import org.kurenai.qqbot.handle.AbstractEventHandler;
 import org.kurenai.qqbot.util.MessageBuilder;
 
 /**
  * @author Kurenai
  * @since 2021-04-09 11:27
  */
-public class ClanBattleHandler extends AbstractBotEventHandler {
+
+@Slf4j
+public class ClanBattleHandler extends AbstractEventHandler {
 
     @Override
     public boolean match(BotContext ctx) {
@@ -29,5 +34,11 @@ public class ClanBattleHandler extends AbstractBotEventHandler {
     @Override
     public void onResponse(BotContext ctx) {
 
+    }
+
+    @GroupEvent(command = "create clan")
+    public Action createClan(BotContext ctx, Event event) {
+        log.info("Create a clan for {}({})", Global.GROUP_INFO_MAP.get(event.getGroupId()), event.getGroupId());
+        return null;
     }
 }

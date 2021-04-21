@@ -1,4 +1,4 @@
-package org.kurenai.qqbot.domain;
+package org.kurenai.qqbot.pojo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;

@@ -3,10 +3,10 @@ package org.kurenai.qqbot.handle;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.kurenai.qqbot.BotContext;
-import org.kurenai.qqbot.Global;
-import org.kurenai.qqbot.domain.Action;
-import org.kurenai.qqbot.domain.Event;
+import org.kurenai.qqbot.core.BotContext;
+import org.kurenai.qqbot.core.Global;
+import org.kurenai.qqbot.pojo.Action;
+import org.kurenai.qqbot.pojo.Event;
 import org.kurenai.qqbot.util.JacksonFactory;
 
 /**
@@ -14,7 +14,7 @@ import org.kurenai.qqbot.util.JacksonFactory;
  * @since 2021-04-08 14:50
  */
 @Slf4j
-public abstract class AbstractBotEventHandler implements BotEventHandler {
+public abstract class AbstractEventHandler implements EventHandler {
 
     protected final ObjectMapper mapper = JacksonFactory.getInstance();
 
@@ -44,7 +44,7 @@ public abstract class AbstractBotEventHandler implements BotEventHandler {
             } catch (JsonProcessingException e) {
                 e.printStackTrace();
             }
-            log.error("{} can't handle {}", this.getClass().getSimpleName(), json);
+            log.error("{} can't handle {}.", this.getClass().getSimpleName(), json);
             log.error(exception.getMessage(), exception);
         }
         return null;
@@ -55,5 +55,15 @@ public abstract class AbstractBotEventHandler implements BotEventHandler {
     @Override
     public void onResponse(BotContext ctx) {
         log.debug("onResponse: {}", ctx.getResponse());
+    }
+
+    @Override
+    public boolean isContinue() {
+        return false;
+    }
+
+    @Override
+    public int order() {
+        return 0;
     }
 }

@@ -1,16 +1,16 @@
 package org.kurenai.qqbot.handle;
 
-import org.kurenai.qqbot.BotContext;
+import org.kurenai.qqbot.core.BotContext;
 import org.kurenai.qqbot.constant.EventMessageType;
-import org.kurenai.qqbot.domain.Action;
-import org.kurenai.qqbot.domain.Event;
+import org.kurenai.qqbot.pojo.Action;
+import org.kurenai.qqbot.pojo.Event;
 import org.kurenai.qqbot.util.MessageBuilder;
 
 /**
  * @author Kurenai
  * @since 2021-04-09 11:27
  */
-public class TestHandler extends AbstractBotEventHandler {
+public class TestHandler extends AbstractEventHandler {
 
     @Override
     public boolean match(BotContext ctx) {

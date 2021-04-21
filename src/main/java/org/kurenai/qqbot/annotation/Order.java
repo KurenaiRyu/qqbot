@@ -7,17 +7,12 @@ import java.lang.annotation.Target;
 
 /**
  * @author Kurenai
- * @since 2021-04-12 11:06
+ * @since 2021-04-21 17:25
  */
-
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface PrivateEvent {
+public @interface Order {
 
-    String[] command() default {};
 
-    String regex() default "";
-
-    boolean ignoreCase() default false;
 
 }

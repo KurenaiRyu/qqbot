@@ -1,10 +1,10 @@
-package org.kurenai.qqbot;
+package org.kurenai.qqbot.core;
 
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.FullHttpRequest;
 import lombok.extern.slf4j.Slf4j;
-import org.kurenai.qqbot.domain.Bot;
+import org.kurenai.qqbot.pojo.Bot;
 
 /**
  * @author Kurenai

@@ -1,4 +1,4 @@
-package org.kurenai.qqbot;
+package org.kurenai.qqbot.core;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
@@ -19,7 +19,7 @@ public class WebSocketChannelInitializer extends ChannelInitializer<SocketChanne
         //以块的方式来写的处理器
         pipeline.addLast(new ChunkedWriteHandler());
         //netty是基于分段请求的，HttpObjectAggregator的作用是将请求分段再聚合,参数是聚合字节的最大长度
-        pipeline.addLast(new HttpObjectAggregator(1024 * 1024 * 10));
+        pipeline.addLast(new HttpObjectAggregator(65536));
 
         String path = "/ws";
         //ws://server:port/context_path
@@ -28,8 +28,10 @@ public class WebSocketChannelInitializer extends ChannelInitializer<SocketChanne
 //        pipeline.addLast(new InitBotInfoHandler(path));
         pipeline.addLast(new WebSocketServerProtocolHandler(path));
         //websocket定义了传递数据的6中frame类型
-        pipeline.addLast("responseHandler", new ResponseHandler());
-        pipeline.addLast("eventHandler", new TextWebSocketFrameHandle());
+        pipeline.addLast(ContinuationFrameHandler.class.getName(), new ContinuationFrameHandler());
+        pipeline.addLast(InitInfoHandler.class.getName(), new InitInfoHandler());
+        pipeline.addLast(ResponseHandler.class.getName(), new ResponseHandler());
+        pipeline.addLast(TextWebSocketFrameHandle.class.getName(), new TextWebSocketFrameHandle());
 
     }
 }

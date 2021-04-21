@@ -1,18 +1,20 @@
 package org.kurenai.qqbot.handle;
 
-import org.kurenai.qqbot.BotContext;
+import org.kurenai.qqbot.core.BotContext;
 
 /**
  * @author Kurenai
  * @since 2021-04-08 11:54
  */
-public interface BotEventHandler {
+public interface EventHandler {
 
     String handle(BotContext ctx);
 
     void onResponse(BotContext ctx);
 
-    default boolean isContinue() {
-        return true;
-    }
+    boolean isContinue();
+
+    int order();
+
+
 }

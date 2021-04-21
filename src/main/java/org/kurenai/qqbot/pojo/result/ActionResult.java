@@ -1,4 +1,4 @@
-package org.kurenai.qqbot.domain;
+package org.kurenai.qqbot.pojo.result;
 
 import lombok.Data;
 import org.kurenai.qqbot.constant.ResponseStatus;
@@ -8,7 +8,7 @@ import org.kurenai.qqbot.constant.ResponseStatus;
  * @since 2021-04-09 15:30
  */
 @Data
-public class ActionResponse {
+public class ActionResult {
 
     private Data           data;
     private String         echo;
