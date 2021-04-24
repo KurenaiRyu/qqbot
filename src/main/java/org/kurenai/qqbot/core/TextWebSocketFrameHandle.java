@@ -6,6 +6,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.kurenai.qqbot.pojo.Event;
 import org.kurenai.qqbot.handle.EventHandler;
 import org.kurenai.qqbot.util.JacksonFactory;
@@ -18,6 +19,10 @@ import java.util.concurrent.*;
 public class TextWebSocketFrameHandle extends SimpleChannelInboundHandler<TextWebSocketFrame> {
 
     private final ObjectMapper mapper = JacksonFactory.getInstance();
+    private final ExecutorService pool = new ThreadPoolExecutor(10, 30,
+            30L, TimeUnit.SECONDS,
+            new LinkedBlockingQueue<>(),
+            new ThreadFactoryBuilder().setNameFormat("event-handler-{}").build());
 
     //读到客户端的内容并且向客户端去写内容
     @Override
@@ -37,19 +42,15 @@ public class TextWebSocketFrameHandle extends SimpleChannelInboundHandler<TextWe
             log.debug("Parse error! {}", msg.text());
         }
         if (event == null) return;
-
-        ExecutorService pool = new ThreadPoolExecutor(10, 30,
-                30L, TimeUnit.SECONDS,
-                new LinkedBlockingQueue<>(),
-                new ThreadFactoryBuilder().setNameFormat("event-handler-{}").build());
         BotContext botContext = new BotContext(ctx, event);
         pool.execute(() -> {
             for (EventHandler handler : Global.HANDLERS) {
                 //TODO: break
-                Optional.ofNullable(handler.handle(botContext))
-                        .map(TextWebSocketFrame::new)
-                        .ifPresent(ctx::writeAndFlush);
-                if (!handler.isContinue()) break;
+                String ret;
+                if (StringUtils.isNotBlank(ret = handler.handle(botContext))) {
+                    ctx.writeAndFlush(new TextWebSocketFrame(ret));
+                    if (!handler.isContinue()) break;
+                }
             }
         });
 

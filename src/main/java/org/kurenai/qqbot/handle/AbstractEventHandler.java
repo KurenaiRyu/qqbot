@@ -28,10 +28,11 @@ public abstract class AbstractEventHandler implements EventHandler {
                 Action action = doHandle(ctx, ctx.getEvent());
                 if (action != null) {
                     ctx.setEventHandler(this);
-
-                    String id = String.valueOf(Global.id++);
-                    action.setEcho(id);
-                    Global.BOT_CONTEXT_MAP.put(id, ctx);
+                    if (isHandleResponse()) {
+                        String id = String.valueOf(Global.id++);
+                        action.setEcho(id);
+                        Global.BOT_CONTEXT_MAP.put(id, ctx);
+                    }
                     String json = mapper.writeValueAsString(action);
                     log.debug("Response {}", json);
                     return json;
@@ -59,11 +60,16 @@ public abstract class AbstractEventHandler implements EventHandler {
 
     @Override
     public boolean isContinue() {
-        return false;
+        return true;
     }
 
     @Override
     public int order() {
         return 0;
+    }
+
+    @Override
+    public boolean isHandleResponse() {
+        return false;
     }
 }

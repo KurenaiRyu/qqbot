@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import org.kurenai.qqbot.annotation.GroupEvent;
 import org.kurenai.qqbot.core.BotContext;
 import org.kurenai.qqbot.pojo.Event;
+import org.kurenai.qqbot.pojo.result.FriendInfo;
 import org.kurenai.qqbot.pojo.result.GroupInfo;
 import org.kurenai.qqbot.util.JacksonFactory;
 import org.reflections.Reflections;
@@ -16,6 +17,7 @@ import org.reflections.scanners.TypeAnnotationsScanner;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 @Slf4j

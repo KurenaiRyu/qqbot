@@ -16,7 +16,8 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Bot {
 
-    private String xSelfId;
+    private long qq;
+    private String nickname;
     private String xClientRole;
 
 }

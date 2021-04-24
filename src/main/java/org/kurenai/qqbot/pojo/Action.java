@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -56,11 +57,11 @@ public class Action implements Serializable {
     @NoArgsConstructor
     @JsonInclude(JsonInclude.Include.NON_NULL)
     public static class Param {
-        private Long          userId;
-        private Long          groupId;
-        private List<Message> message;
-        private Boolean       autoEscape;
-        private Boolean       noCache;
+        private Long                userId;
+        private Long                groupId;
+        private Collection<Message> message;
+        private Boolean             autoEscape;
+        private Boolean             noCache;
 
         private List<Message> reply;
         private Boolean       atSender;

@@ -33,13 +33,12 @@ public class Global {
     public static final List<EventHandler>                    HANDLERS                   = new ArrayList<>();
     public static final Map<String, BotContext>               BOT_CONTEXT_MAP            = new HashMap<>();
     public static final Map<Long, GroupInfo.Data>             GROUP_INFO_MAP             = new HashMap<>();
-    public static final Map<Long, Map<Long, FriendInfo.Data>> FRIEND_INFO_MAP            = new HashMap<>();
+    public static final Map<Long, Map<Long, FriendInfo.Data>> QQ_INFO_MAP                = new HashMap<>();
     public static final HashMap<Class<?>, Object>             HANDLER_CLASS_INSTANCE_MAP = new HashMap<>();
     public static final HashMap<Class<?>, Injector<?>>        INJECTOR_INSTANCE_MAP      = new HashMap<>();
 
     static {
         HANDLERS.add(new PingHandler());
-        HANDLERS.add(new ClanBattleHandler());
         HANDLERS.add(new TestHandler());
     }
 
@@ -88,7 +87,7 @@ public class Global {
     public static void putBot(String idText, Bot bot) {
         if (bot != null && StringUtils.isNotBlank(idText)) {
             BOT.put(idText, bot);
-            log.info("Bot({}) connected.", bot.getXSelfId());
+            log.info("Bot({}) connected.", bot.getQq());
         }
     }
 
@@ -97,7 +96,7 @@ public class Global {
     }
 
     public static void removeBot(String idText) {
-        log.info("Bot({}) disconnected.", BOT.remove(idText).getXSelfId());
+        log.info("Bot({}) disconnected.", BOT.remove(idText).getQq());
     }
 
     private static Optional<String> getContextId(ChannelHandlerContext ctx) {

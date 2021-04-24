@@ -2,18 +2,18 @@
 <Configuration status="WARN">
     <Appenders>
         <Console name="Console" target="SYSTEM_OUT">
-<!--            <PatternLayout pattern="%d %highlight{%-5level}{ERROR=Bright RED, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White} %style{[%t]}{bright,magenta} %style{%c{1.}.%M(%L)}{cyan}: %msg%n"/>-->
-            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS}{GMT+8} [%thread] %-5level %logger{1}: %msg%n"/>
+<!--            <PatternLayout pattern="%d %highlight{%-5level}{ERROR=Bright RED, WARN=Bright Yellow, INFO=Bright Green, DEBUG=Bright Cyan, TRACE=Bright White} %style{[%t]}{bright,magenta} %style{%c{1.}.%M(%L)}{cyan}: %msgChain%n"/>-->
+            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS}{GMT+8} [%thread] %-5level %logger{1}: %msgChain%n"/>
         </Console>
         <RollingFile name="RollingFile" fileName="logs/log.log" append="false"
                      filePattern="logs/$${date:yyyy-MM}/app-%d{MM-dd-yyyy}-%i.log.gz">
-            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS}{GMT+8} [%thread] %-5level %logger{36}: %msg%n"/>
+            <PatternLayout pattern="%date{yyyy-MM-dd HH:mm:ss.SSS}{GMT+8} [%thread] %-5level %logger{36}: %msgChain%n"/>
             <SizeBasedTriggeringPolicy size="5 MB"/>
         </RollingFile>
     </Appenders>
 
     <Loggers>
-        <Root level="info">
+        <Root level="debug">
             <AppenderRef ref="Console"/>
             <AppenderRef ref="RollingFile"/>
         </Root>

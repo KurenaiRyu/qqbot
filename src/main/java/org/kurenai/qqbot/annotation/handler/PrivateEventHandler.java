@@ -37,7 +37,7 @@ public class PrivateEventHandler implements AnnotationHandler {
 
                 @Override
                 public Action doHandle(BotContext ctx, Event event) throws Exception {
-                    return (Action) method.invoke(instance, Global.getInjectObjects(ctx, method.getParameterTypes()));
+                    return invokeMethod(method, instance, ctx);
                 }
             };
             Global.HANDLERS.add(handler);

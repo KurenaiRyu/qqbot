@@ -3,7 +3,6 @@ package org.kurenai.qqbot.pojo.result;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.Collection;
 import java.util.List;
 
 /**
@@ -12,14 +11,13 @@ import java.util.List;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class FriendInfo extends BaseResult {
+public class LoginInfo extends BaseResult {
 
-    private Collection<Data> data;
+    private Data data;
 
     @lombok.Data
     public static class Data {
         private long userId;
         private String nickname;
-        private String remark;
     }
 }

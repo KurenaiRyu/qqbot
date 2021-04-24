@@ -93,7 +93,7 @@ public class QQBotBootstrap {
         }
 
         List<EventHandler> handlers =
-                Global.HANDLERS.stream().dropWhile(Objects::isNull).distinct().sorted(Comparator.comparing(EventHandler::order)).collect(Collectors.toList());
+                Global.HANDLERS.stream().dropWhile(Objects::isNull).sorted(Comparator.comparing(EventHandler::order)).collect(Collectors.toList());
         Global.HANDLERS.clear();
         Global.HANDLERS.addAll(handlers);
     }

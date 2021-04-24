@@ -14,6 +14,8 @@ public interface EventHandler {
 
     boolean isContinue();
 
+    boolean isHandleResponse();
+
     int order();
 
 

@@ -5,7 +5,7 @@ import org.kurenai.qqbot.constant.MessageType;
 import org.kurenai.qqbot.pojo.Message;
 
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 
 /**
  * @author Kurenai
@@ -13,36 +13,35 @@ import java.util.List;
  */
 
 @NoArgsConstructor
-public class MessageBuilder {
+public class MsgChain extends ArrayList<Message> {
 
-    private final List<Message> messages = new ArrayList<>();
-
-    public static MessageBuilder newInstant() {
-        return new MessageBuilder();
-    }
-
-    public static MessageBuilder of(String text) {
-        MessageBuilder messageBuilder = new MessageBuilder();
-        messageBuilder.addMessage(
+    public static MsgChain of(String text) {
+        MsgChain msgChain = new MsgChain();
+        msgChain.add(
                 Message.builder()
                         .type(MessageType.TEXT)
                         .data(Message.Data.builder().text(text).build())
                         .build());
-        return messageBuilder;
+        return msgChain;
     }
 
-    public static MessageBuilder of(long qq) {
-        MessageBuilder messageBuilder = new MessageBuilder();
-        messageBuilder.addMessage(
+    /**
+     * create with at qq message
+     * @param qq qq
+     * @return MsgChain
+     */
+    public static MsgChain of(long qq) {
+        MsgChain msgChain = new MsgChain();
+        msgChain.add(
                 Message.builder()
                         .type(MessageType.AT)
                         .data(Message.Data.builder().qq(qq + "").build())
                         .build());
-        return messageBuilder;
+        return msgChain;
     }
 
-    public MessageBuilder at(long qq) {
-        messages.add(
+    public MsgChain at(long qq) {
+        this.add(
                 Message.builder()
                         .type(MessageType.AT)
                         .data(Message.Data.builder().qq(qq + "").build())
@@ -50,8 +49,8 @@ public class MessageBuilder {
         return this;
     }
 
-    public MessageBuilder atAll() {
-        messages.add(
+    public MsgChain atAll() {
+        this.add(
                 Message.builder()
                         .type(MessageType.AT)
                         .data(Message.Data.builder().qq(Message.Constant.ALL_QQ).build())
@@ -59,8 +58,8 @@ public class MessageBuilder {
         return this;
     }
 
-    public MessageBuilder text(String text) {
-        addMessage(
+    public MsgChain text(String text) {
+        this.add(
                 Message.builder()
                         .type(MessageType.TEXT)
                         .data(Message.Data.builder().text(text).build())
@@ -68,8 +67,8 @@ public class MessageBuilder {
         return this;
     }
 
-    public MessageBuilder image(String file) {
-        messages.add(
+    public MsgChain image(String file) {
+        this.add(
                 Message.builder()
                         .type(MessageType.IMAGE)
                         .data(Message.Data.builder().file(file).build())
@@ -77,8 +76,8 @@ public class MessageBuilder {
         return this;
     }
 
-    public MessageBuilder share(String url, String title) {
-        messages.add(
+    public MsgChain share(String url, String title) {
+        this.add(
                 Message.builder()
                         .type(MessageType.SHARE)
                         .data(Message.Data.builder().url(url).title(title).build())
@@ -86,8 +85,8 @@ public class MessageBuilder {
         return this;
     }
 
-    public MessageBuilder reply(int id) {
-        messages.add(
+    public MsgChain reply(int id) {
+        this.add(
                 Message.builder()
                         .type(MessageType.REPLY)
                         .data(Message.Data.builder().id(id).build())
@@ -95,8 +94,8 @@ public class MessageBuilder {
         return this;
     }
 
-    public MessageBuilder forward(int id) {
-        messages.add(
+    public MsgChain forward(int id) {
+        this.add(
                 Message.builder()
                         .type(MessageType.FORWARD)
                         .data(Message.Data.builder().id(id).build())
@@ -104,22 +103,14 @@ public class MessageBuilder {
         return this;
     }
 
-    public MessageBuilder location(float lat, float lon) {
-        messages.add(
+    public MsgChain location(float lat, float lon) {
+        this.add(
                 Message.builder()
                         .type(MessageType.LOCATION)
                         .data(Message.Data.builder().lat(lat).lon(lon).build())
                         .build()
         );
         return this;
-    }
-
-    public List<Message> build() {
-        return messages;
-    }
-
-    public void addMessage(Message message) {
-        this.messages.add(message);
     }
 
 

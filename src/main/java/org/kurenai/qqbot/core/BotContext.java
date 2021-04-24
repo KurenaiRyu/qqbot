@@ -11,7 +11,7 @@ import org.kurenai.qqbot.pojo.result.ActionResult;
 import org.kurenai.qqbot.pojo.Bot;
 import org.kurenai.qqbot.pojo.Event;
 import org.kurenai.qqbot.handle.EventHandler;
-import org.kurenai.qqbot.util.MessageBuilder;
+import org.kurenai.qqbot.util.MsgChain;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -41,14 +41,14 @@ public class BotContext {
 
     /////////////// send /////////////////
 
-    public Action sendPrivateMsg(MessageBuilder messageBuilder) {
-        return sendGroupMsg(event.getUserId(), messageBuilder);
+    public Action sendPrivateMsg(MsgChain msgChain) {
+        return sendGroupMsg(event.getUserId(), msgChain);
     }
 
-    public Action sendPrivateMsg(long qq, MessageBuilder messageBuilder) {
+    public Action sendPrivateMsg(long qq, MsgChain msgChain) {
         Action.Param params = Action.Param.builder()
                 .userId(qq)
-                .message(messageBuilder.build())
+                .message(msgChain)
                 .build();
         return Action.builder()
                 .action(Api.SEND_PRIVATE_MSG.getUrl())
@@ -56,14 +56,22 @@ public class BotContext {
                 .build();
     }
 
-    public Action sendGroupMsg(MessageBuilder messageBuilder) {
-        return sendGroupMsg(event.getGroupId(), messageBuilder);
+    public Action sendGroupMsg(String msg) {
+        return sendGroupMsg(MsgChain.of(msg));
     }
 
-    public Action sendGroupMsg(long groupId, MessageBuilder messageBuilder) {
+    public Action sendGroupMsg(MsgChain msgChain) {
+        return sendGroupMsg(event.getGroupId(), msgChain);
+    }
+
+    public Action sendGroupMsg(long groupId, String msg) {
+        return sendGroupMsg(groupId, MsgChain.of(msg));
+    }
+
+    public Action sendGroupMsg(long groupId, MsgChain msgChain) {
         Action.Param params = Action.Param.builder()
                 .groupId(groupId)
-                .message(messageBuilder.build())
+                .message(msgChain)
                 .build();
         return Action.builder()
                 .action(Api.SEND_GROUP_MSG.getUrl())

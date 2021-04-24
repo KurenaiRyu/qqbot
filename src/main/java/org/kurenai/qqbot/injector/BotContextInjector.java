@@ -15,7 +15,7 @@ public class BotContextInjector implements Injector<BotContext> {
     }
 
     @Override
-    public Object getInjectObj(BotContext ctx) {
+    public BotContext getInjectObj(BotContext ctx) {
         return ctx;
     }
 

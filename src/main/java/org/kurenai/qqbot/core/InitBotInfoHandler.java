@@ -27,7 +27,7 @@ public class InitBotInfoHandler extends SimpleChannelInboundHandler<FullHttpRequ
         if (request.uri().equals(path)) {
             Bot info = Bot.builder().xClientRole(request.headers()
                                                          .get(BotConstant.X_CLIENT_ROLE))
-                    .xSelfId(request.headers().get(BotConstant.X_SELF_ID))
+                    .qq(Long.parseLong(request.headers().get(BotConstant.X_SELF_ID)))
                     .build();
             Global.putBot(ctx, info);
             ctx.fireChannelRead(request.retain());

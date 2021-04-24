@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.kurenai.qqbot.core.BotContext;
 import org.kurenai.qqbot.pojo.Action;
 import org.kurenai.qqbot.pojo.Event;
-import org.kurenai.qqbot.util.MessageBuilder;
+import org.kurenai.qqbot.util.MsgChain;
 
 /**
  * @author Kurenai
@@ -24,13 +24,17 @@ public class PingHandler extends AbstractEventHandler {
         return Action.builder()
                 .action(Action.SEND_MSG)
                 .params(Action.Param.builder()
-                                .userId(event.getGroupId() == null ? event.getUserId() : null)
-                                .groupId(event.getGroupId())
-                                .message(MessageBuilder.of(event.getUserId())
-                                                 .text("Pong!")
-                                                 .build())
-                                .build())
+                        .userId(event.getGroupId() == null ? event.getUserId() : null)
+                        .groupId(event.getGroupId())
+                        .message(MsgChain.of(event.getUserId())
+                                .text("Pong!"))
+                        .build())
                 .build()
                 .async();
+    }
+
+    @Override
+    public boolean isContinue() {
+        return true;
     }
 }

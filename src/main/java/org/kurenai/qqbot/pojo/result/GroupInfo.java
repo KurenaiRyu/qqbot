@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.kurenai.qqbot.constant.ResponseStatus;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -14,7 +15,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = true)
 public class GroupInfo extends BaseResult {
 
-    private List<Data> data;
+    private Collection<Data> data;
 
     @lombok.Data
     public static class Data {
